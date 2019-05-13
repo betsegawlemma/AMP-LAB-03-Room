@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        AsyncTask.execute{
+        AsyncTask.execute {
             courseDatabase = CourseDatabase.getDatabase(this)
             courseDao = courseDatabase.courseDao()
         }
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         addButton.setOnClickListener {
             val course = readFields()
-            AsyncTask.execute {
+            AsyncTask.execute{
                 saveCourse(course)
             }
             clearFields()
@@ -82,22 +82,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateFields(course: Course){
-        if(course!=null) {
-            codeEditText.setText(course.code)
-            titleEditText.setText(course.title)
-            ectsEditText.setText(course.ects.toString())
-            descriptionEditText.setText(course.description)
+
+        course?.run{
+            codeEditText.setText(code)
+            titleEditText.setText(title)
+            ectsEditText.setText(ects.toString())
+            descriptionEditText.setText(description)
         }
     }
 
-    private fun readFields():Course{
-        return Course(
+    private fun readFields() = Course(
             codeEditText.text.toString(),
             titleEditText.text.toString(),
             ectsEditText.text.toString().toInt(),
             descriptionEditText.text.toString()
         )
-    }
 
     private fun clearFields() {
         searchEditText.setText("")
@@ -106,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         ectsEditText.setText("")
         descriptionEditText.setText("")
     }
+
     private fun updateCourse(course: Course){
         courseDao.updateCourse(course)
     }

@@ -16,6 +16,5 @@ interface CourseDao {
 
     @Delete
     fun deleteCourse(course: Course):Int
-
 }
 
